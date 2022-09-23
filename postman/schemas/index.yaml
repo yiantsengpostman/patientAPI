@@ -1,0 +1,359 @@
+openapi: 3.0.0
+info:
+  title: Patient Lookup
+  description: "API for creating and managing patient information."
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: "https://03d3ab1c-b3ee-4518-bea3-128334115aab.mock.pstmn.io"
+paths:
+  /create:
+    post:
+      tags:
+        - Create
+      summary: New patient file
+      description: Creates a new patient file in the system. The patient file will be assigned an ID automatically. This can be found in the response.
+      operationId: new patient file
+      requestBody:
+        content:
+          application/form-urlencoded:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: "{{$randomFirstName}}"
+                lastName:
+                  type: string
+                  example: "{{$randomLastName}}"
+            example:
+              firstName: "{{$randomFirstName}}"
+              lastName: "{{$randomLastName}}"
+      responses:
+        "200":
+          description: New patient file
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "101"
+            Date:
+              schema:
+                type: string
+                example: "Thu, 10 Jan 2019 23:58:59 GMT"
+            ETag:
+              schema:
+                type: string
+                example: "W/\"65-KsPJ95rCxmmvvRBY2Sqroxk2vmA\""
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                    example: Ben
+                  id:
+                    type: string
+                    example: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                  lastName:
+                    type: string
+                    example: Smith
+                  status:
+                    type: string
+                    example: success
+              examples:
+                New patient file:
+                  value:
+                    firstName: Ben
+                    id: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                    lastName: Smith
+                    status: success
+  /delete:
+    delete:
+      tags:
+        - Delete
+      summary: Delete patient file
+      description: "Deletes a patient file from the system by `id`."
+      operationId: delete patient file
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+            example: "{{id}}"
+          description: "The patient file's ID"
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: Delete patient file
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "64"
+            Date:
+              schema:
+                type: string
+                example: "Fri, 11 Jan 2019 00:20:55 GMT"
+            ETag:
+              schema:
+                type: string
+                example: "W/\"40-bT/ASzl0KO3wj/eo2xEBaHPLnvk\""
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                  status:
+                    type: string
+                    example: success
+              examples:
+                Delete patient file:
+                  value:
+                    id: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                    status: success
+  /get:
+    get:
+      tags:
+        - Read
+      summary: Get all patient files
+      description: Get all patient files in the system.
+      operationId: getAllPatientFiles
+      parameters:
+        - name: all
+          in: query
+          schema:
+            type: string
+            example: "true"
+      responses:
+        "200":
+          description: 200 OK
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "105"
+            Date:
+              schema:
+                type: string
+                example: "Fri, 11 Jan 2019 00:00:53 GMT"
+            ETag:
+              schema:
+                type: string
+                example: "W/\"69-ti7ujd/Cyb8EeoWoqRXh482Zy5o\""
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    firstName:
+                      type: string
+                      example: Ben
+                    id:
+                      type: string
+                      example: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                    lastName:
+                      type: string
+                      example: Smith
+                    status:
+                      type: string
+                      example: success
+                example:
+                  - status: success
+                  - firstName: Ben
+                    id: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                    lastName: Smith
+              examples:
+                200 OK:
+                  value:
+                    - status: success
+                    - firstName: Ben
+                      id: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                      lastName: Smith
+  /get/:
+    get:
+      tags:
+        - Read
+      summary: Get patient files by last name
+      description: "Retrieves all patient files with the given `firstName`."
+      operationId: getPatientFilesByLastName
+      parameters:
+        - name: firstName
+          in: query
+          schema:
+            type: string
+            example: "{{$randomLastName}}"
+          description: "The patient file's first name (required)"
+      responses:
+        "200":
+          description: "200"
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "105"
+            Date:
+              schema:
+                type: string
+                example: "Fri, 11 Jan 2019 00:05:34 GMT"
+            ETag:
+              schema:
+                type: string
+                example: "W/\"69-F/ktIhtM5We/sndYYNUK1vmdEnQ\""
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    firstName:
+                      type: string
+                      example: "{{$randomFirstName}}"
+                    id:
+                      type: string
+                      example: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                    lastName:
+                      type: string
+                      example: "{{$randomLastName}}"
+                    status:
+                      type: string
+                      example: success
+                example:
+                  - status: success
+                  - firstName: "{{$randomFirstName}}"
+                    id: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                    lastName: "{{$randomLastName}}"
+              examples:
+                "200":
+                  value:
+                    - status: success
+                    - firstName: "{{$randomFirstName}}"
+                      id: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                      lastName: "{{$randomLastName}}"
+  /update:
+    put:
+      tags:
+        - Update
+      summary: Update patient file
+      description: "Send the keys that you'd like to update, this can be one or more of `firstName`, `lastName` and `password`."
+      operationId: updatePatientFile
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+            example: "{{id}}"
+          description: "The patient file's ID (required)"
+      requestBody:
+        content:
+          application/form-urlencoded:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: Benjamin
+                password:
+                  type: string
+                  example: foobar
+            example:
+              firstName: Benjamin
+              password: foobar
+      responses:
+        "200":
+          description: Update patient file
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "106"
+            Date:
+              schema:
+                type: string
+                example: "Fri, 11 Jan 2019 00:18:07 GMT"
+            ETag:
+              schema:
+                type: string
+                example: "W/\"6a-SA9mzR+M2pmN7WPGgLm1ZqtRYis\""
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                    example: Benjamin
+                  id:
+                    type: string
+                    example: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                  lastName:
+                    type: string
+                    example: Smith
+                  status:
+                    type: string
+                    example: success
+              examples:
+                Update patient file:
+                  value:
+                    firstName: Benjamin
+                    id: 0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7
+                    lastName: Smith
+                    status: success
+tags:
+  - name: Create
+    description: create user info
+  - name: Read
+    description: get user info
+  - name: Update
+    description: update user
+  - name: Delete
